@@ -1,0 +1,16 @@
+# Build artifacts
+*.exe
+*.o
+*.obj
+*.ilk
+*.pdb
+
+# CMake build dir
+build/
+
+# Temp files
+temp_*
+
+# OS junk
+Thumbs.db
+Desktop.ini

@@ -76,6 +76,17 @@ int main(int argc, char** argv) {
     glutInitWindowPosition(100, 100);
     glutCreateWindow("3D Maze Game - Computer Graphics Project");
 
+#ifdef _WIN32
+    // Force keyboard focus to the game window at startup, otherwise the
+    // console window keeps focus and WASD/arrow keys do nothing.
+    HWND hwnd = FindWindowA(NULL, "3D Maze Game - Computer Graphics Project");
+    if (hwnd) {
+        ShowWindow(hwnd, SW_SHOW);
+        SetForegroundWindow(hwnd);
+        SetFocus(hwnd);
+    }
+#endif
+
     Game game;
     g_gameInstance = &game;
     game.init(1024, 768);

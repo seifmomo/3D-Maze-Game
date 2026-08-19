@@ -3,14 +3,15 @@
  * ============================================================
  * Top-level game logic, rendering, HUD, input handling, and OpenGL setup.
  * Implements camera mode toggles (1: First Person, 2: Third Person, 3: Top-Down, V: Cycle),
- * light controls (IJKL / Arrow keys to move point light, L to toggle sun),
- * game timer, gem score tracking, win/lose screens, and HUD overlays.
+ * sun light toggle (L), debug world axes (G), game timer, gem score tracking,
+ * win/lose screens, and HUD overlays.
  * ============================================================
  */
 
 #include "Game.h"
 #include "../graphics/Light.h"
 #include "../graphics/Transform.h"
+#include "../objects/Primitives.h"
 #ifdef _WIN32
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
@@ -42,6 +43,7 @@ Game::Game()
     , mouseDown_(false)
     , lastMouseX_(0)
     , lastMouseY_(0)
+    , showAxes_(false)
 {}
 
 // ── Init ──────────────────────────────────────────────────────────────────────
@@ -166,13 +168,13 @@ void Game::idle() {
 
         updateLights();
         
-        checkConditions();
+        updateGameRules();
     }
 
     glutPostRedisplay();
 }
 
-void Game::checkConditions() {
+void Game::updateGameRules() {
     Vec3 pPos = player_.getPosition();
     float pRad = player_.getRadius();
 
@@ -213,6 +215,11 @@ void Game::display() {
     // Apply lights in View space
     sunLight_.apply();
     pointLight_.apply();
+
+    // Debug world axes (X=red, Y=green, Z=blue) — toggle with G
+    if (showAxes_) {
+        Primitives::drawAxes(8.f);
+    }
 
     // Render Scene & Player
     scene_.draw();
@@ -283,7 +290,7 @@ void Game::drawHUD() {
     drawText2D(windowW_ - 280, windowH_ - 30, buf, 0.4f, 0.9f, 1.0f);
 
     // Controls tip
-    drawText2D(20, 20, "WASD: Move | Mouse Drag: Look/Orbit | Space: Pause | R: Reset", 0.7f, 0.7f, 0.7f);
+    drawText2D(20, 20, "WASD: Move | Mouse Drag: Look/Orbit | Space: Pause | R: Reset | G: Axes", 0.7f, 0.7f, 0.7f);
 
     // Render Overlays for PAUSED / WIN / LOSE states
     if (state_ == GameState::PAUSED) {
@@ -336,6 +343,8 @@ void Game::keyDown(unsigned char key, int x, int y) {
             if (sunLight_.isEnabled()) sunLight_.disable(); 
             else sunLight_.enable(); 
             break;
+
+        case 'g': case 'G': showAxes_ = !showAxes_; break;
 
         case ' ':
             if (state_ == GameState::PLAYING) state_ = GameState::PAUSED;

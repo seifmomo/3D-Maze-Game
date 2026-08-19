@@ -213,7 +213,7 @@ void drawFloor(float width, float depth, int divisions) {
  *   z = r * sin(phi)
  * Normal at surface: (cos(phi)*cos(theta), cos(phi)*sin(theta), sin(phi))
  */
-void drawTorus(float innerR, float outerR, int sides, int rings) {
+void drawTorus(float tubeRadius, float ringRadius, int sides, int rings) {
     float pi2 = 2.f * (float)M_PI;
 
     for (int i = 0; i < rings; i++) {
@@ -231,9 +231,9 @@ void drawTorus(float innerR, float outerR, int sides, int rings) {
                 float nz = sinP;
                 glNormal3f(nx, ny, nz);
 
-                float px = (outerR + innerR * cosP) * cosT;
-                float py = (outerR + innerR * cosP) * sinT;
-                float pz = innerR * sinP;
+                float px = (ringRadius + tubeRadius * cosP) * cosT;
+                float py = (ringRadius + tubeRadius * cosP) * sinT;
+                float pz = tubeRadius * sinP;
                 glVertex3f(px, py, pz);
             }
         }

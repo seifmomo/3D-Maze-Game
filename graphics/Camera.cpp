@@ -49,10 +49,7 @@ void Camera::setPerspective(float fov, float aspect, float nearZ, float farZ) {
     farZ_   = farZ;
 }
 
-void Camera::setOrthographic(float l, float r, float b, float t,
-                              float nearZ, float farZ) {
-    // Parameters not stored individually; we compute them in applyProjection
-    (void)l; (void)r; (void)b; (void)t;
+void Camera::setOrthographicRange(float nearZ, float farZ) {
     orthoNear_ = nearZ;
     orthoFar_  = farZ;
 }

@@ -44,10 +44,10 @@ public:
     /*
      * Orthographic projection (Lecture 001):
      *  Maps a rectangular box to NDC.  No depth-based shrinking.
-     *  Used for TOP_DOWN mode.
+     *  Used for TOP_DOWN mode; the view box itself is sized
+     *  automatically in applyProjection to fit the maze.
      */
-    void setOrthographic(float left, float right, float bottom, float top,
-                         float nearZ, float farZ);
+    void setOrthographicRange(float nearZ, float farZ);
 
     // ── Mode switching ────────────────────────────────────────
     void       setMode (CameraMode mode);

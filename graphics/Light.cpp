@@ -28,7 +28,7 @@ void Light::setAmbient (const LightColor& c) { ambient_  = c; }
 void Light::setDiffuse (const LightColor& c) { diffuse_  = c; }
 void Light::setSpecular(const LightColor& c) { specular_ = c; }
 void Light::setPosition (const Vec3& pos)    { position_ = pos; }
-void Light::setDirection(const Vec3& dir)    { position_ = dir; } // stored in position for directional
+void Light::setDirection(const Vec3& dir)    { position_ = dir; }
 void Light::setAttenuation(float c, float l, float q) {
     constAtten_ = c; linearAtten_ = l; quadAtten_ = q;
 }
@@ -36,9 +36,6 @@ void Light::setAttenuation(float c, float l, float q) {
 // ── Enable / disable ──────────────────────────────────────────────────────────
 void Light::enable()  { enabled_ = true;  glEnable((unsigned int)glLightId_);  }
 void Light::disable() { enabled_ = false; glDisable((unsigned int)glLightId_); }
-
-// ── Move ──────────────────────────────────────────────────────────────────────
-void Light::move(const Vec3& delta) { position_ += delta; }
 
 // ── Apply to OpenGL ───────────────────────────────────────────────────────────
 void Light::apply() const {

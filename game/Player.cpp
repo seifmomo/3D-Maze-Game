@@ -43,7 +43,6 @@ Player::Player()
     , moveForward_(false), moveBack_(false)
     , moveLeft_(false),    moveRight_(false)
     , turnLeft_(false),    turnRight_(false)
-    , alive_(true)
     , scene_(nullptr)
 {}
 
@@ -53,7 +52,6 @@ void Player::init(const Vec3& startPos) {
     yaw_       = 0;
     rollAngle_ = 0;
     velX_ = velZ_ = 0;
-    alive_     = true;
     // Reset all input flags
     moveForward_ = moveBack_ = moveLeft_ = moveRight_ = false;
     turnLeft_    = turnRight_ = false;
@@ -65,8 +63,6 @@ void Player::respawn(const Vec3& startPos) {
 
 // ── Update (called every frame) ───────────────────────────────────────────────
 void Player::update(float dt, const Vec3& moveFwd, const Vec3& moveRight) {
-    if (!alive_) return;
-
     // ── 1. Optional turning (Q/E) ──────────────────────────────
     if (turnLeft_)  yaw_ -= turnSpeed_ * dt;
     if (turnRight_) yaw_ += turnSpeed_ * dt;
@@ -132,17 +128,20 @@ void Player::tryMove(float dx, float dz) {
 
 // ── Draw ──────────────────────────────────────────────────────────────────────
 void Player::draw() {
-    if (!alive_) return;
-
     glPushMatrix();
 
-    // Translate to world position
-    Mat4::translation(position_.x, position_.y, position_.z).apply();
+    // Build the model matrix as a product of transformation matrices
+    // (homogeneous coordinates, Lecture 006):
+    //   M = T(position) · R_y(yaw + 180°)
+    // +180° so the eye faces the direction of travel (the ball's local +Z
+    // axis is rotated by R_y to align with the forward vector).
+    Mat4 model =
+        Mat4::translation(position_.x, position_.y, position_.z) *
+        Mat4::rotationY(yaw_ + 180.f);
+    model.apply();
 
     // Draw the composite player ball (sphere + eye hierarchy).
-    // +180° so the eye faces the direction of travel (local +Z after yaw
-    // rotation points along the forward vector).
-    ComplexObjects::drawPlayerBall(radius_, rollAngle_, yaw_ + 180.f);
+    ComplexObjects::drawPlayerBall(radius_, rollAngle_);
 
     glPopMatrix();
 }

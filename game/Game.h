@@ -66,9 +66,12 @@ private:
     void setupOpenGL();
     void setupLighting();
     void updateLights();
-    void checkConditions();
+    void updateGameRules();
     void resetGame();
     float getTime() const;   // seconds since start (via glutGet)
+
+    // Debug helper: draw world axes (G key)
+    bool showAxes_;
 
     // ── HUD rendering ─────────────────────────────────────────
     void drawHUD();

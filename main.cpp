@@ -64,6 +64,7 @@ int main(int argc, char** argv) {
     std::cout << "  - Mouse Drag        : Orbit / Look Camera\n";
     std::cout << "  - V or 1/2/3        : Switch Camera (1st/3rd/Top-Down)\n";
     std::cout << "  - L                 : Toggle Sun Light\n";
+    std::cout << "  - G                 : Toggle Debug Axes\n";
     std::cout << "  - Space             : Pause / Resume Game\n";
     std::cout << "  - R                 : Reset / Restart Game\n";
     std::cout << "  - ESC               : Exit\n";

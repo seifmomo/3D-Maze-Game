@@ -56,7 +56,13 @@ public:
 
     // ── Configure position / direction ────────────────────────
     void setPosition (const Vec3& pos);   // world position (POINT)
-    void setDirection(const Vec3& dir);   // light direction (DIRECTIONAL)
+    /*
+     * Direction for DIRECTIONAL lights.  OpenGL's convention stores a
+     * directional light's direction in the GL_POSITION array with w = 0,
+     * so internally it is stored in the same position_ member and the
+     * w component in apply() decides how it is interpreted.
+     */
+    void setDirection(const Vec3& dir);
 
     // ── Attenuation for point lights ──────────────────────────
     // Iatt = 1 / (kc + kl·d + kq·d²)
@@ -70,8 +76,6 @@ public:
     // ── Apply to OpenGL (call each frame in modelview space) ──
     void apply() const;
 
-    // ── Move light by a delta vector ──────────────────────────
-    void move(const Vec3& delta);
     Vec3 getPosition() const { return position_; }
 
 private:

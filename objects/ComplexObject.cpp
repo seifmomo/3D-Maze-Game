@@ -30,15 +30,22 @@ namespace ComplexObjects {
 // ── Gem ───────────────────────────────────────────────────────────────────────
 /*
  * Hierarchy:
- *   gem root (spin + tilt)
+ *   gem root (spin + tilt + scale pulse)
  *     ├─ top pyramid
  *     ├─ bottom pyramid (rotated 180°)
  *     └─ equatorial torus ring
+ *
+ * SCALING: a sinusoid derived from spinAngle makes the gem gently
+ * breathe in and out (glScalef) while it spins — demonstrates the
+ * scaling transformation on a live animated object.
  */
 void drawGem(float size, float spinAngle) {
+    float pulse = 1.f + 0.12f * std::sin(spinAngle * 0.05f);
+
     glPushMatrix();
     glRotatef(spinAngle, 0, 1, 0);      // ANIMATION: spin around Y each frame
     glRotatef(20.f, 1, 0, 1);           // fixed tilt for visual interest
+    glScalef(pulse, pulse, pulse);      // ANIMATION: breathing scale pulse
 
     // Top pyramid (apex up)
     materialRuby();
@@ -67,16 +74,16 @@ void drawGem(float size, float spinAngle) {
 // ── Player ball ───────────────────────────────────────────────────────────────
 /*
  * Hierarchy:
- *   body sphere (roll animation, face direction)
+ *   body sphere (roll animation)
  *     └─ eye sphere  ← child rendered in body-local space
  *          └─ pupil  ← grandchild
  * This demonstrates a 3-level object hierarchy.
+ *
+ * The world-space facing rotation is applied by the caller via the
+ * Mat4 class, so this function only deals with local geometry.
  */
-void drawPlayerBall(float radius, float rollAngle, float faceDirY) {
+void drawPlayerBall(float radius, float rollAngle) {
     glPushMatrix();
-
-    // Rotate body so the eye faces the player's movement direction
-    glRotatef(faceDirY, 0, 1, 0);
 
     // Roll animation: rotate about the lateral axis so the ball appears
     // to roll forward in the direction it travels (visual feedback)
@@ -198,12 +205,16 @@ void drawWallBlock(float width, float height, float depth) {
 /*
  * 6 conical spikes pointing along ±X, ±Y, ±Z axes.
  * Central sphere at origin.
- * Entire shape spins around Y (and wobbles around X) for animation.
+ * Entire shape spins around Y (and wobbles around X) and scales with a
+ * pulse for animation.
  */
 void drawGoalStar(float size, float spinAngle) {
+    float pulse = 1.f + 0.1f * std::sin(spinAngle * 0.06f);
+
     glPushMatrix();
     glRotatef(spinAngle,        0, 1, 0);
     glRotatef(spinAngle * 0.4f, 1, 0, 0);
+    glScalef(pulse, pulse, pulse);      // ANIMATION: breathing scale pulse
 
     materialGold();
 

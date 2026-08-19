@@ -18,14 +18,16 @@
 
 namespace ComplexObjects {
 
-// Collectible gem: two pyramids joined base-to-base with a gold ring
-// spinAngle drives the rotation animation (degrees, updated per frame)
+// Collectible gem: two pyramids joined base-to-base with a gold ring.
+// spinAngle drives the rotation animation AND the scaling pulse
+// (degrees, updated per frame)
 void drawGem(float size, float spinAngle);
 
-// Player avatar: green sphere body + white eye (hierarchical child)
+// Player avatar: green sphere body + white eye (hierarchical child).
+// The caller (Player::draw) applies the world translation + facing
+// rotation via the Mat4 class before calling this.
 // rollAngle makes the ball appear to roll as it moves
-// faceDirY is the yaw so the eye always faces forward
-void drawPlayerBall(float radius, float rollAngle, float faceDirY);
+void drawPlayerBall(float radius, float rollAngle);
 
 // NPC guard: humanoid shape with walk-cycle animation
 // animTime drives the limb swing (seconds elapsed)

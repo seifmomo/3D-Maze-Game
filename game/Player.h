@@ -58,15 +58,12 @@ public:
     float getYaw      () const { return yaw_;       }
     float getRadius   () const { return radius_;    }
     float getRollAngle() const { return rollAngle_; }
-    bool  isAlive     () const { return alive_;     }
     bool  isMoving    () const {
         return moveForward_ || moveBack_ || moveLeft_ || moveRight_;
     }
 
     // ── Scene reference for wall collision ───────────────────
     void setScene(Scene* s) { scene_ = s; }
-
-    void kill() { alive_ = false; }
 
 private:
     Vec3  position_;
@@ -81,7 +78,6 @@ private:
 
     bool  moveForward_, moveBack_, moveLeft_, moveRight_;
     bool  turnLeft_,    turnRight_;
-    bool  alive_;
 
     Scene* scene_;       // borrowed pointer (not owned)
 

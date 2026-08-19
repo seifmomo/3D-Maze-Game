@@ -19,7 +19,6 @@ set(SOURCES
     graphics/Transform.cpp
     graphics/Camera.cpp
     graphics/Light.cpp
-    objects/GameObject.cpp
     objects/Primitives.cpp
     objects/ComplexObject.cpp
     game/Scene.cpp

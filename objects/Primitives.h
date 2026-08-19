@@ -39,8 +39,9 @@ void drawPyramid(float base, float height);
 void drawFloor(float width, float depth, int divisions = 1);
 
 // ── Torus (ring shape) ────────────────────────────────────────
-// innerR = tube radius, outerR = ring radius
-void drawTorus(float innerR, float outerR, int sides = 12, int rings = 20);
+// tubeRadius = radius of the tube cross-section
+// ringRadius = distance from centre to the tube centre
+void drawTorus(float tubeRadius, float ringRadius, int sides = 12, int rings = 20);
 
 // ── Debug: draw X (red) Y (green) Z (blue) axes ───────────────
 void drawAxes(float length = 1.f);
